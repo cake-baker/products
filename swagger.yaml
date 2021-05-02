@@ -53,7 +53,7 @@ paths:
                 $ref: "#/components/schemas/Product"
         400:
           description: Invalid Product
-  /product/{id}:
+  /products/{id}:
     get:
       tags:
         - product
