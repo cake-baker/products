@@ -35,7 +35,7 @@ curl http://localhost:8080/products
 - [https://app.swaggerhub.com/apis-docs/renuka-fernando/Products/v1](https://app.swaggerhub.com/apis-docs/renuka-fernando/Products/v1)
 - [Swagger.yaml](swagger.yaml)
 
-####Remove running service
+#### Remove running service
 ```
 docker rm -f products-backend
 ```

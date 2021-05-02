@@ -9,7 +9,7 @@ import (
 )
 
 type Product struct {
-	Id       int    `json:"id"`
+	Id       int    `json:"id,omitempty"`
 	Name     string `json:"name"`
 	Category string `json:"category"`
 	Price    int    `json:"price"` // in cents
@@ -45,6 +45,7 @@ func (h *ProductHandler) initValues() {
 }
 
 func (h *ProductHandler) getAllProducts(w http.ResponseWriter, r *http.Request) {
+	log(r)
 	var products []Product
 	for _, p := range h.products {
 		products = append(products, p)
@@ -56,6 +57,7 @@ func (h *ProductHandler) getAllProducts(w http.ResponseWriter, r *http.Request) 
 }
 
 func (h *ProductHandler) getProduct(w http.ResponseWriter, r *http.Request) {
+	log(r)
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -71,6 +73,7 @@ func (h *ProductHandler) getProduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ProductHandler) createProduct(w http.ResponseWriter, r *http.Request) {
+	log(r)
 	var p Product
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&p); err != nil {
@@ -86,6 +89,7 @@ func (h *ProductHandler) createProduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ProductHandler) updateProduct(w http.ResponseWriter, r *http.Request) {
+	log(r)
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -110,6 +114,7 @@ func (h *ProductHandler) updateProduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ProductHandler) deleteProduct(w http.ResponseWriter, r *http.Request) {
+	log(r)
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
