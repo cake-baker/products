@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: products-https
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: products-https
+  template:
+    metadata:
+      labels:
+        app: products-https
+    spec:
+      containers:
+        - name: products-https
+          # Replace this with the built image name
+          image: cakebakery/products:v1
+          args: ["-https", "-cert", "/products-certs/tls.crt", "-key", "/products-certs/tls.key"]
+          ports:
+            - containerPort: 8443
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: "5m"
+              memory: "20Mi"
+            requests:
+              cpu: "2m"
+              memory: "10Mi"
+          volumeMounts:
+            - mountPath: /products-certs
+              name: tls-cert-vol
+      volumes:
+        - name: tls-cert-vol
+          secret:
+            secretName: https-products-certs
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: products-https
+spec:
+  type: NodePort
+  selector:
+    app: products-https
+  ports:
+    - protocol: TCP
+      port: 443
+      targetPort: 8443
+      nodePort: 30443
